@@ -23,14 +23,14 @@ colors.get('/:myId', (req, res) => {
   }
 });
 
-colors.use((req, res, next) => {
-  console.log(req.method, req.headers.host, req.path);
-  if (req.body.userName === 'Gary' && req.body.password === '123') {
-    return next();
-  } else {
-    return res.status(403).send('No no no!');
-  }
-});
+// colors.use((req, res, next) => {
+//   console.log(req.method, req.headers.host, req.path);
+//   if (req.body.userName === 'Gary' && req.body.password === '123') {
+//     return next();
+//   } else {
+//     return res.status(403).send('No no no!');
+//   }
+// });
 
 const checkForColorKey = (req, res, next) => {
   console.log('Check');
@@ -48,9 +48,24 @@ colors.post('/', checkForColorKey, (req, res) => {
   res.send('Ok');
 });
 
-// colors.get('/somethingElse', (req, res, next) => {
-//   console.log('Something else route');
-//   res.send('Hi');
-// });
+// You can do it lots of ways. But follow the conventions.
+colors.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  colorsArray.splice(id, 1);
+  res.send('Ok');
+});
+
+colors.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  colorsArray[id] = name;
+  res.send('Ok');
+});
+
+// Follow the conventions!
+// C -> Create -> POST
+// R -> Read -> GET
+// U -> Update -> PUT
+// D -> Destroy -> DELETE
 
 module.exports = colors;
