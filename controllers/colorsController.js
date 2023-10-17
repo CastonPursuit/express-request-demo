@@ -43,20 +43,21 @@ const checkForColorKey = (req, res, next) => {
 
 // CREATE ROUTE! Creates a new resource on the server.
 colors.post('/', checkForColorKey, (req, res) => {
-  const { name } = req.body;
-  colorsArray.push({ name: name });
+  colorsArray.push(req.body);
   res.send('Ok');
 });
 
 // You can do it lots of ways. But follow the conventions.
 colors.delete('/:id', (req, res) => {
   const { id } = req.params;
+  console.log(req)
   colorsArray.splice(id, 1);
   res.send('Ok');
 });
 
 colors.put('/:id', (req, res) => {
   const { id } = req.params;
+  
   const { name } = req.body;
   colorsArray[id] = { name };
   res.send('Ok');
